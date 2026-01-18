@@ -2,6 +2,7 @@
 #include <concepts>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 template <class T>
 constexpr bool is_arithmetic_v = 
@@ -18,6 +19,10 @@ template <class T, class U, std::enable_if_t<
 void add(T a, U b) = delete;
 
 int main(){
+    add(1, 2);
+
+    std::vector <int> arr = {1, 2, 3};
+    // add(arr, 1);
     return 0;
 }
 
