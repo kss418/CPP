@@ -23,14 +23,14 @@ concept tuple_pred =
 template<template<class> class Pred, class Tup> requires tuple_pred<Pred, Tup>
 decltype(auto) tuple_filter_types(Tup&& tup){
     constexpr size_t sz = std::tuple_size_v<std::remove_cvref_t<Tup>>;
-    auto pick = [&]<std::size_t I>() -> decltype(auto){
+    auto pick = [&]<std::size_t I>() -> decltype(auto) {
         using T = decltype(std::get<I>(std::forward<Tup>(tup)));
         using U = std::remove_cvref_t<T>;
         if constexpr (Pred<U>::value) return std::forward_as_tuple(std::get<I>(std::forward<Tup>(tup)));
         else return std::tuple<>{};
     };
 
-    auto f = [&]<std::size_t... Is>(std::index_sequence<Is...>) -> decltype(auto){
+    auto f = [&]<std::size_t... Is>(std::index_sequence<Is...>) -> decltype(auto) {
         return std::tuple_cat(pick.template operator()<Is>()...);
     };
 
